@@ -1,8 +1,34 @@
 // Luiz Henrique Parolim Domingues - 21248,
 // Matheus Henrique De Oliveira Freire - 21251.
 
-// Projeto 1 - Tópicos em Orientação a objetos;
+// Projeto 1 - Tï¿½picos em Orientaï¿½ï¿½o a objetos;
 // Linguagem C;
-// Projeto de solução de sistemas lineares
-// A partir do método de Gauss-Seidel.
+// Projeto de soluï¿½ï¿½o de sistemas lineares
+// A partir do mï¿½todo de Gauss-Seidel.
 
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+
+void main()
+{
+  FILE *arq;
+  char Linha[100];
+  char *result;
+  int i;
+  // Abre um arquivo TEXTO para LEITURA
+  arq = fopen("matriz.txt", "rt");
+  if (arq == NULL)  // Se houve erro na abertura
+  {
+     printf("Problemas na abertura do arquivo\n");
+     return;
+  }
+  i = 1;
+  while (!feof(arq))  // enquanto nÃ£o Ã© fim de arquivo
+  {
+	// LÃª uma linha (inclusive com o '\n')
+      result = fgets(Linha, 100, arq);  // o 'fgets' lÃª atÃ© 99 caracteres ou atÃ© o '\n'
+    //   if (result)  // Se foi possÃ­vel ler
+  }
+  fclose(arq);
+}

@@ -1,13 +1,12 @@
 #include <stdio.h>
 
-int main(void)
+int main()
 {
  char url[]="matriz.txt",
       ch1, ch2, ch3;
  FILE *arq;
- printf("%", url[]);
 
- arq = fopen(url, "r");
+ arq = fopen("matriz.txt", "r");
 
  if(arq == NULL)
    printf("Erro, nao foi possivel abrir o arquivo\n");

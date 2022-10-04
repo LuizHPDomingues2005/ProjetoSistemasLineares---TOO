@@ -15,19 +15,29 @@ void main()
   FILE *arq;
   char Linha[100];
   char *result;
-  int i;
+
+
   // Abre um arquivo TEXTO para LEITURA
-  arq = fopen("matriz.txt", "rt");
+  arq = fopen("matriz.txt", "r");
+
   if (arq == NULL)  // Se houve erro na abertura
   {
      printf("Problemas na abertura do arquivo\n");
      return;
   }
-  i = 1;
+
+  int ordem;
+  ordem = fgetc(arq);
+  printf("%c", ordem);
+
+  int matriz[ordem][ordem];
+
+  int i = 1;
   while (!feof(arq))  // enquanto não é fim de arquivo
   {
 	// Lê uma linha (inclusive com o '\n')
       result = fgets(Linha, 100, arq);  // o 'fgets' lê até 99 caracteres ou até o '\n'
+      printf(result);
     //   if (result)  // Se foi possível ler
   }
   fclose(arq);

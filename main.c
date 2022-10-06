@@ -25,35 +25,44 @@ void main()
 
   fscanf(arq, "%d", &ordem);
 
-  int matriz[ordem][ordem];
-printf("%d \n", ordem);
+  double matriz[ordem][ordem];
+  double resultados[ordem];
+
 
   for( i = 0; i < ordem; i++)
   {
-      for( j = 1; j != ordem; j++)
+
+      for( j = 0; j != ordem; j++)
       {
-          fscanf(arq, "%d ", &matriz[i][j]);
-          fscanf(arq, "\n");
+          fscanf(arq, "%lf ", &matriz[i][j]);
+
       }
-    fscanf(arq, "\n");
+
+      fscanf(arq, "%lf ", &resultados[i]);
+      /*fseek(arq, ordem, SEEK_CUR);*/
+
   }
 
+
+      // verificar pares
+      // verificamos linha com linha
+      // primeiro a linha 1 com as demais linhas: 2, 3, 4...
+      // após isso a linha 2 com as demais linhas: 3, 4...
+
+  int qtsLinhasALer = ordem;
   for( i = 0; i < ordem; i++)
   {
-      for( j = 1; j < ordem; j++)
+      for( j = 0; j < (ordem+1); j++)
       {
-          printf("%d ", matriz[i][j]);
+          double numLinhaAtual = matriz[i][j];
+          double numProximaLinha = matriz[(i+1)][j];
+
+          double divisaoResultado = numLinhaAtual / numProximaLinha;
+
+          printf("%lf ", divisaoResultado);
       }
-    printf("\n");
+  qtsLinhasALer = qtsLinhasALer - 1;
   }
 
-
-
-  /*while (!feof(arq))  // enquanto não é fim de arquivo
-  {
-	// Lê uma linha (inclusive com o '\n')
-      result = fgets(Linha, 100, arq);  // o 'fgets' lê até 99 caracteres ou até o '\n'
-      printf(result);
-  }*/
   fclose(arq);
 }

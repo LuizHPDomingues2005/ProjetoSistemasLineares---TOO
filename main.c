@@ -10,6 +10,14 @@
 #include <conio.h>
 #include <stdlib.h>
 
+typedef
+enum{
+    false,
+    true
+}
+boolean;
+
+
 void main()
 {
   FILE *arq;
@@ -29,8 +37,9 @@ void main()
   double resultados[ordem];
 
 
-  for( i = 0; i < ordem; i++)
+  for( i = 0; i != ordem; i++)
   {
+
 
       for( j = 0; j != ordem; j++)
       {
@@ -43,26 +52,95 @@ void main()
 
   }
 
+  fclose(arq);
 
       // verificar pares
       // verificamos linha com linha
       // primeiro a linha 1 com as demais linhas: 2, 3, 4...
       // após isso a linha 2 com as demais linhas: 3, 4...
 
-  int qtsLinhasALer = ordem;
-  for( i = 0; i < ordem; i++)
-  {
-      for( j = 0; j < (ordem+1); j++)
-      {
-          double numLinhaAtual = matriz[i][j];
-          double numProximaLinha = matriz[(i+1)][j];
 
-          double divisaoResultado = numLinhaAtual / numProximaLinha;
+  double linha[ordem];
+  double resultadoDivisao[ordem], resultAnt[ordem];; // vetor para armazenar resultados
+  boolean ehAplicavel = true, valoresIguals[ordem];
 
-          printf("%lf ", divisaoResultado);
-      }
-  qtsLinhasALer = qtsLinhasALer - 1;
-  }
 
-  fclose(arq);
+  ///////////////////////////////////////////////////////////
+  for (i = 0; i < ordem-1; i++) // repeticao para fazer pares de linhas com execao da ultima
+         {
+            for ( j = 0; j != ordem; j++)
+            {
+                    linha[j] = matriz[i][j]; // vetor está recebendo o valor da linha que está percorrendo
+            }
+
+
+        for(int linhaSeguinte = i+1; linhaSeguinte != ordem; linhaSeguinte++) // repeticao para dividir os pares de linhas
+        {
+              for (j = 0; j != ordem; j++)
+            {
+
+                    resultadoDivisao[j] = linha[j] / matriz[linhaSeguinte][j];
+                    // resultadoDivisao recebe a divisão de linha pela linha debaixo
+            }
+
+
+
+            if(linhaSeguinte != i+1)
+            {
+                for(int h = 0; h != ordem-1; h++)
+                {
+                    if(resultadoDivisao[h] == resultAnt[h])
+                        valoresIguals[h] == true;
+                }
+
+
+
+            int qtsIguais = 0;
+            for(int h = 0; h != ordem; h++)
+            {
+                if(valoresIguals[h] == true)
+                    qtsIguais++;
+
+                    if(qtsIguais == ordem)
+                        ehAplicavel = false;
+            }
+
+            }
+            for(int k = 0; k != ordem; k++)
+            {
+                resultAnt[k] = resultadoDivisao[k];
+            }
+
+            if(ehAplicavel == false)
+                break;
+
+        }
+
+         }
+ ////////////////////////////////////////////////////////////
+
+ for(i = 0; i < ordem-1; i++)
+ {
+
+    if(matriz[i][i] == 0)
+    {
+        int contLinhas = 1; //contador de linhas para trocar as linhas de lugares para tirar o zero da diagonal
+        while(contLinhas < ordem && matriz[i][i]==0)
+        {
+            int aux;
+            for(j = 0; j <= ordem+1; j++)
+            {
+                aux = matriz[i][j];
+                matriz[i][j]= matriz[i+1][j];
+                matriz[i+1][j]= aux;
+            }
+             contLinhas++;
+        }
+        if(matriz[i][i]== 0) // teste
+        {
+             printf("Não é possivel resolver o sistema!");
+            return 0;
+        }
+    }
+ }
 }

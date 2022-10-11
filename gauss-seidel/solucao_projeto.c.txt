@@ -53,7 +53,7 @@ float matriz[20][20],c,x[10],soma=0.0;
            }
         }
         if(elementosIgual == ordem)
-            return 0; // se a quantidade de elementos do vetor são iguais ao tamanho da            linha todos são iguais
+            return 0; // se a quantidade de elementos do vetor são iguais ao tamanho da linha todos são iguais
         }
     }
     

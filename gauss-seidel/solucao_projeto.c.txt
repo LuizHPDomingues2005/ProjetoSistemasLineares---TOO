@@ -3,7 +3,7 @@
 
 int i,j,k,ordem;
 float matriz[20][20],c,x[10],soma=0.0;
-int LinhaMatriz[];
+
     
     int ehAplicavel() // testar se e possivel resolver o sistema dividindo a linha por                     outra linha
     {
@@ -104,55 +104,68 @@ int main() {
             return 0;
         }
     }
+     float linhaMatriz[ordem];
+     memset(linhaMatriz, 0, sizeof(linhaMatriz));
+        j = 1;
+        i = 1;
+        int colunaAtual = 1;
     
-    // Transforma os elementos da diagonal em 1
-    for(i=1;i<=ordem;i++)
-    {
-         int valorDiagonal;
-         
-        for(j=1;j<=(ordem+1);j++)
+        // solução da matriz    
+        while(i <= ordem)
         {
-            if(i == j)
-                valorDiagonal = matriz[i][j];
-                
-                matriz[i][j] = matriz[i][j] / valorDiagonal;
-            
-        }
-    }
-    
-    for(int linha = 1; linha <= ordem; linha++)
-    {
-        for(i=1;i<=ordem;i++)
-        {
-            int valorDiagonal;
+            float valorDiagonal;
          
             for(j=1;j<=(ordem+1);j++)
             {
-                if(i == j)
+                 if(i == j) // se i = j quer dizer que estamos na diagonal
+                 {
                     valorDiagonal = matriz[i][j];
+                    if(valorDiagonal == 0)
+                    {
+                          int contLinhas = 1; //contador de linhas para trocar as linhas de lugares para tirar o zero da diagonal
+                        while(contLinhas < ordem && matriz[1][1]==0)
+                        {
+                             trocarLinhas(contLinhas);
+                             contLinhas++;
+                        }
+                        if(matriz[1][1]== 0) // teste
+                        {
+                             printf("Não é possivel resolver o sistema!");
+                            return 0;
+                        }
+                    }
                     
-                    matriz[i][j] = matriz[i][j] / valorDiagonal;
-                    linhaMatriz[j] = matriz[i][j]
+                    for(j=1;j<=(ordem+1);j++) // percorre as colunas da matriz
+                    {
+                        matriz[i][j] = matriz[i][j] / valorDiagonal; 
+                        //divide a posição atual pelo valor da diagonal
+                        
+                        linhaMatriz[j-1] = matriz[i][j];;
+                    }
+                    break;
+                 }
             }
-            valorDiagonal = 0;
-            break; // para o loop de repetição
-        }
-        
-        for(int coluna = linha; coluna <= (ordem+1); coluna++)
-        {
-            int valor;
-            if(matriz[coluna][linha] != 0)
+            
+            for(int seqLinha = 1; seqLinha <= ordem; seqLinha++)
             {
-                valor = (-matriz[linha][coluna]);
-                for(int tamanhoVet; tamanhoVet < linha )
+                float valor;
+                
+                if(seqLinha != colunaAtual && matriz[seqLinha][colunaAtual] != 0)
+                {
+                    valor = (-matriz[seqLinha][colunaAtual]);
+                    for(int coluna=1;coluna<=(ordem+1);coluna++) // percorre as colunas da matriz
+                        {
+                            matriz[seqLinha][coluna] = (linhaMatriz[coluna-1] * valor) +  matriz[seqLinha][coluna];
+                        }
+                }
             }
+            colunaAtual++;
+            i++; // incrementador de linha da
         }
-        
-        
-    }
+    
     
     // printa a matriz
-    for(i=1;i<=ordem;i++)
+    for( i=1;i<=ordem;i++)
     {
         for(j=1;j<=ordem+1;j++)
         {
@@ -168,57 +181,5 @@ int main() {
         }
         printf("\n");
     }
-    
-   
-
-    for(j=1;j<=(ordem+1);j++)
-    {
-        for(i=1;i<=ordem;i++)
-        {
-            if(i>j)
-            {
-                c=-(matriz[i][j]/matriz[j][j]);
-                for(k=1;k<=ordem+1;k++)
-                {
-                    matriz[i][k]=c*matriz[j][k]+matriz[i][k];
-                }
-            }
-        }
-    }
-
-    for(i=1;i<=ordem;i++)
-    {
-        for(j=1;j<=ordem+1;j++)
-        {
-            if(j!=ordem+1)
-            {
-            printf("%0.2f   ", matriz[i][j]);
-            }
-            else
-            {
-                printf("%0.2f \n", matriz[i][j]);
-
-            }
-        }
-    }
-
-
-    x[ordem]=matriz[ordem][ordem+1]/matriz[ordem][ordem];
-
-    for(i=ordem-1; i>=1; i--)
-    {
-        soma=0;
-        for(j=i+1; j<=ordem;j++)
-        {
-            soma=soma+matriz[i][j]*x[j];
-        }
-        x[i]=(matriz[i][ordem+1]-soma)/matriz[i][i];
-    }
-    printf("\nA solucao eh: \n");
-    for(i=1; i<=ordem;i++)
-    {
-        printf("\nx%d=%f\t",i,x[i]);
-    }
-
-    return (0);
+    return 0;
 }

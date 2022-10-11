@@ -3,8 +3,9 @@
 
 int i,j,k,ordem;
 float matriz[20][20],c,x[10],soma=0.0;
+
     
-    /*int ehAplicavel() // testar se e possivel resolver o sistema dividindo a linha por                     outra linha
+    int ehAplicavel() // testar se e possivel resolver o sistema dividindo a linha por                     outra linha
     {
          float divisaoLinhas[ordem];
          float resultadoDivisao[ordem];
@@ -52,9 +53,9 @@ float matriz[20][20],c,x[10],soma=0.0;
            }
         }
         if(elementosIgual == ordem)
-            return 0; // se a quantidade de elementos do vetor são iguais ao tamanho da linha todos são iguais
+            return 0; // se a quantidade de elementos do vetor são iguais ao tamanho da            linha todos são iguais
         }
-    }*/
+    }
     
      void trocarLinhas(int contLinhas) // trocar linhas da matriz
     {
@@ -83,11 +84,11 @@ int main() {
         }
     }
     
-    /*if(ehAplicavel() == 0)
+    if(ehAplicavel() == 0)
     {
         printf("Não é possivel resolver o sistema!");
         return 0;
-    }*/
+    }
     
     if(matriz[1][1] == 0)
     {
@@ -103,36 +104,69 @@ int main() {
             return 0;
         }
     }
+     float linhaMatriz[ordem];
+     memset(linhaMatriz, 0, sizeof(linhaMatriz));
+        j = 1;
+        i = 1;
+        int colunaAtual = 1;
     
-    
-    
-    for(int linha = 0;linha<=ordem;linha++) // Transformar os valores da diagonal em 1
-    {
-        int linhaAtual = 1;
-        //int linhaMatriz[ordem];
-        //memset(linhaMatriz, 0, sizeof(linhaMatriz));
-        for(i=1;i<=ordem;i++)
+        // solução da matriz pelo método gauss seidel   
+        while(i <= ordem)
         {
-            int valorDiagonal;
+            float valorDiagonal;
          
             for(j=1;j<=(ordem+1);j++)
             {
                  if(i == j) // se i = j quer dizer que estamos na diagonal
                  {
                     valorDiagonal = matriz[i][j];
+                    if(valorDiagonal == 0)
+                    {
+                          int contLinhas = 1; //contador de linhas para trocar as linhas de lugares para tirar o zero da diagonal
+                        while(contLinhas < ordem && matriz[1][1]==0)
+                        {
+                             trocarLinhas(contLinhas);
+                             contLinhas++;
+                        }
+                        if(matriz[1][1]== 0) // teste
+                        {
+                             printf("Não é possivel resolver o sistema!");
+                            return 0;
+                        }
+                    }
+                    
                     for(j=1;j<=(ordem+1);j++) // percorre as colunas da matriz
                     {
                         matriz[i][j] = matriz[i][j] / valorDiagonal; 
                         //divide a posição atual pelo valor da diagonal
-                       
+                        
+                        linhaMatriz[j-1] = matriz[i][j];;
                     }
+                    break;
                  }
             }
+            
+            for(int seqLinha = 1; seqLinha <= ordem; seqLinha++)
+            {
+                float valor;
+                
+                if(seqLinha != colunaAtual && matriz[seqLinha][colunaAtual] != 0)
+                {
+                    valor = (-matriz[seqLinha][colunaAtual]);
+                    for(int coluna=1;coluna<=(ordem+1);coluna++) // percorre as colunas da matriz
+                        {
+                            matriz[seqLinha][coluna] = (linhaMatriz[coluna-1] * valor) +  matriz[seqLinha][coluna];
+                        }
+                }
+            }
+            colunaAtual++;
+            i++; // incrementador de linha da
         }
-    }
+	// fim do método
+    
     
     // printa a matriz
-    for(i=1;i<=ordem;i++)
+    for( i=1;i<=ordem;i++)
     {
         for(j=1;j<=ordem+1;j++)
         {
@@ -148,6 +182,5 @@ int main() {
         }
         printf("\n");
     }
-    
-    return (0);
+    return 0;
 }

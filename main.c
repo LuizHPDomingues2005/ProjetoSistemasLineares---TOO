@@ -19,6 +19,7 @@ boolean;
 
 
 void main()
+
 {
   FILE *arq;
   char Linha[100];
@@ -39,6 +40,7 @@ void main()
 
   for( i = 0; i != ordem; i++)
   {
+
 
 
       for( j = 0; j != ordem; j++)
@@ -119,28 +121,53 @@ void main()
          }
  ////////////////////////////////////////////////////////////
 
- for(i = 0; i < ordem-1; i++)
+ for(i = 0; i != ordem; i++)
  {
-
     if(matriz[i][i] == 0)
     {
-        int contLinhas = 1; //contador de linhas para trocar as linhas de lugares para tirar o zero da diagonal
-        while(contLinhas < ordem && matriz[i][i]==0)
-        {
-            int aux;
-            for(j = 0; j <= ordem+1; j++)
+        int contLinhas = 0; //contador quantas vezes as linhas foram trocadas
+
+            int aux, aux2;
+
+                if(i != ordem -1)
+                {
+                    for(j = 0; contLinhas < ordem-1; j++)
             {
-                aux = matriz[i][j];
-                matriz[i][j]= matriz[i+1][j];
-                matriz[i+1][j]= aux;
+                    aux = matriz[i][j];
+                    aux2 = resultados[i];
+
+                    matriz[i][j]= matriz[i+1][j];
+                    resultados[i]= resultados[i+1];
+
+                    matriz[i+1][j]= aux;
+                    resultados[i+1] = aux2;
+
+                    contLinhas++;
             }
-             contLinhas++;
-        }
-        if(matriz[i][i]== 0) // teste
+                }
+
+                else
+                {
+                    for(j = 0; contLinhas < ordem-1; j++)
+            {
+                    aux = matriz[i][j];
+                    aux2 = resultados[i];
+
+                    matriz[i][j]= matriz[i-1][j];
+                    resultados[i]= resultados[i-1];
+
+                    matriz[i-1][j]= aux;
+                    resultados[i-1] = aux2;
+
+                    contLinhas++;
+            }
+                }
+        if(contLinhas == ordem) // teste
         {
              printf("Não é possivel resolver o sistema!");
-            return 0;
         }
     }
+
+    }
+
  }
-}

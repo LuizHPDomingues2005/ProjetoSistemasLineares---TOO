@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef
 enum{
@@ -90,10 +91,15 @@ void testePrint(int ordem, double matriz[ordem][ordem])
 boolean verificarPossibilidadeDeSolucao(int ordem, double matriz[ordem][ordem]){
     int i, j;
 
+
     double linha[ordem];
   double resultadoDivisao[ordem], resultAnt[ordem];; // vetor para armazenar resultados
   boolean ehAplicavel = true, valoresIguals[ordem];
 
+    memset(valoresIguals, false, sizeof(valoresIguals));
+    memset(resultadoDivisao, 0, sizeof(resultadoDivisao));
+    memset(resultAnt, 0, sizeof(resultAnt));
+    memset(linha, 0, sizeof(linha));
 
   for (i = 0; i < ordem-1; i++) // repeticao para fazer pares de linhas com execao da ultima
          {
@@ -114,12 +120,12 @@ boolean verificarPossibilidadeDeSolucao(int ordem, double matriz[ordem][ordem]){
 
 
 
-            if(linhaSeguinte != i+1)
+            if(linhaSeguinte != i+1) // se e diferente do comeco do contador linhaSeguinte
             {
-                for(int h = 0; h != ordem-1; h++)
+                for(int h = 0; h != ordem; h++)
                 {
                     if(resultadoDivisao[h] == resultAnt[h])
-                        valoresIguals[h] == true;
+                        valoresIguals[h] = true;
                 }
 
 
@@ -156,7 +162,7 @@ void main()
   char Linha[100];
   int result, ordem,i ,j;
   // Abre um arquivo TEXTO para LEITURA
-  arq = fopen("matriz3.txt", "r");
+  arq = fopen("matriz.txt", "r");
   if (arq == NULL)  // Se houve erro na abertura
   {
      printf("Problemas na abertura do arquivo\n");

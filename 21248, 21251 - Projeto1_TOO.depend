@@ -1,11 +1,7 @@
 # depslib dependency file v1.0
-1665488266 source:c:\users\u21248\documents\luiz\tópicos em proramação orientada a objetos\projeto 1\21248, 21251 - projeto1_too\main.c
+1666014410 source:c:\users\u21248\documents\luiz\tópicos em proramação orientada a objetos\projeto 1\21248, 21251 - projeto1_too\main.c
 	<stdio.h>
 	<conio.h>
 	<stdlib.h>
-
-1665582774 source:d:\luiz\backup arquivos\documentos\2cotuca\3 semestre\too\projeto 1\projetosistemaslineares---too\main.c
-	<stdio.h>
-	<conio.h>
-	<stdlib.h>
+	<string.h>
 

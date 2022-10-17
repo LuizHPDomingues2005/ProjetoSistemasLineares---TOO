@@ -1,3 +1,4 @@
+
 // Luiz Henrique Parolim Domingues - 21248,
 // Matheus Henrique De Oliveira Freire - 21251.
 
@@ -75,7 +76,7 @@ void trocarLinhasDeLugar(int ordem, double matriz[ordem][ordem], double resultad
     }
 }
 
-void testePrint2(int ordem, double matriz[ordem][ordem], double resultados[ordem])
+void testePrint(int ordem, double matriz[ordem][ordem], double resultados[ordem])
 {
     for(int i = 0; i != ordem; i++)
     {
@@ -83,15 +84,15 @@ void testePrint2(int ordem, double matriz[ordem][ordem], double resultados[ordem
         {
             if( j == ordem)
                 printf("%lf", resultados[i]);
-
-            printf("%lf ", matriz[i][j]);
+            else
+                printf("%lf ", matriz[i][j]);
         }
         printf("\n");
     }
        printf("\n");
 }
 
-void testePrint(int ordem, double matriz[ordem][ordem])
+void testePrint2(int ordem, double matriz[ordem][ordem])
 {
     for(int i = 0; i != ordem; i++)
     {
@@ -206,7 +207,7 @@ void main()
 
   fclose(arq);
 
-  testePrint(ordem, matriz);
+  testePrint(ordem, matriz,resultados);
       // verificar pares
       // verificamos linha com linha
       // primeiro a linha 1 com as demais linhas: 2, 3, 4...
@@ -218,12 +219,15 @@ void main()
  if(verificarPossibilidadeDeSolucao(ordem, matriz))
     printf("E possivel resolver.\n");
  else
-    printf("Não e possivel resolver.");
+ {
+       printf("Não e possivel resolver.");
+       return 0;
+ }
 
  ////////////////////////////////////////////////////////////
      trocarLinhasDeLugar(ordem, matriz, resultados);
 
-    testePrint(ordem, matriz);
+    testePrint(ordem, matriz,resultados);
 
     // declração das variáveis que serão usadas para resolver o sistema
      double linhaMatriz[ordem];
@@ -301,7 +305,7 @@ void main()
             i++; // incrementador de linha da
         }
 
-  testePrint(ordem, matriz);
+  testePrint(ordem, matriz,resultados);
 
   int contX = 1;
  for(i=0; i != ordem;i++)

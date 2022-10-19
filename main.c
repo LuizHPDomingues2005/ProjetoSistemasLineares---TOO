@@ -231,7 +231,10 @@ void main()
                     {
                         if (i == j) // se i = j quer dizer que estamos na diagonal
                         {
-
+                            if(matriz[i][i] == 0){
+                                if(trocarLinhasDeLugar(ordem, matriz, resultados) == false)
+                                    break;
+                            }
                             valorDiagonal = matriz[i][j];
 
                             for (j = 0; j <= ordem; j++) // percorre as colunas da matriz

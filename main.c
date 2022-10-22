@@ -167,9 +167,14 @@ void main()
             char nomeArq[50];
             memset(nomeArq, ' ', sizeof(nomeArq));
 
-            printf("\n\nDigite o nome do arquivo a ser lido. Ex: matriz.txt \n\n");
+            printf("\n\nDigite o nome do arquivo a ser lido. Ex: matriz.txt\n");
+            printf("Para sair digite 0\n\n");
+
             scanf("%s", nomeArq);
             printf("\n");
+
+            if(nomeArq[0] == '0')
+                break;
 
             // Abre um arquivo TEXTO para LEITURA
             arq = fopen(nomeArq, "r");
@@ -290,5 +295,6 @@ void main()
                 }
             }
         }
+        break;
     }
 }

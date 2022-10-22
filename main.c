@@ -66,7 +66,60 @@ boolean trocarLinhasDeLugar(int ordem, double matriz[ordem][ordem], double resul
         }
         if (matriz[i][i] == 0)
         {
-            printf("Nao e possivel resolver o sistema!");
+            return false;
+        }
+    }
+    return true;
+}
+
+boolean trocarLinhasEspecificasDeLugar(int ordem, double matriz[ordem][ordem], double resultados[ordem], int linha)
+{
+    int i, j;
+
+    for (i = 0; i != ordem; i++)
+    {
+        if (matriz[i][i] == 0 && i != linha)
+        {
+            int contLinhas = 0; // contador quantas vezes as linhas foram trocadas
+
+            int aux, aux2;
+
+            if (i != ordem - 1)
+            {
+                for (j = 0; contLinhas < ordem; j++) // ao trocar as linhas da matriz, troca junto as dos resultados
+                {
+                    aux = matriz[i][j];
+                    aux2 = resultados[i];
+
+                    matriz[i][j] = matriz[i + 1][j];
+                    resultados[i] = resultados[i + 1];
+
+                    matriz[i + 1][j] = aux;
+                    resultados[i + 1] = aux2;
+
+                    contLinhas++;
+                }
+            }
+
+            else
+            {
+                for (j = 0; contLinhas < ordem; j++)
+                {
+                    aux = matriz[i][j];
+                    aux2 = resultados[i];
+
+                    matriz[i][j] = matriz[i - 1][j];
+                    resultados[i] = resultados[i - 1];
+
+                    matriz[i - 1][j] = aux;
+                    resultados[i - 1] = aux2;
+
+                    contLinhas++;
+                }
+            }
+        }
+        if (matriz[i][i] == 0)
+        {
             return false;
         }
     }
@@ -165,7 +218,7 @@ void main()
         do
         {
             char nomeArq[50];
-            memset(nomeArq, ' ', sizeof(nomeArq));
+            memset(nomeArq, '0', sizeof(nomeArq));
 
             printf("\n\nDigite o nome do arquivo a ser lido. Ex: matriz.txt\n");
             printf("Para sair digite 0\n\n");
@@ -173,8 +226,10 @@ void main()
             scanf("%s", nomeArq);
             printf("\n");
 
-            if(nomeArq[0] == '0')
-                break;
+            if (nomeArq[0] == '0')
+                return 0;
+
+            fflush(stdin);
 
             // Abre um arquivo TEXTO para LEITURA
             arq = fopen(nomeArq, "r");
@@ -217,9 +272,8 @@ void main()
             if (trocarLinhasDeLugar(ordem, matriz, resultados))
             {
 
-                printeAMatriz(ordem, matriz, resultados);
-
                 // declração das variáveis que serão usadas para resolver o sistema
+                boolean ehPossivel = true;
                 double linhaMatriz[ordem];
                 memset(linhaMatriz, 0, sizeof(linhaMatriz));
                 double resultadoAnt;
@@ -228,18 +282,23 @@ void main()
                 int colunaAtual = 0;
 
                 // solução da matriz
-                while (i != ordem)
+                while (i != ordem && ehPossivel == true)
                 {
                     double valorDiagonal;
 
                     for (j = 0; j != ordem; j++)
                     {
-                        if (i == j) // se i = j quer dizer que estamos na diagonal
+                        if (i == j && matriz[i][j] != 1)
                         {
-                            if(matriz[i][i] == 0){
-                                if(trocarLinhasDeLugar(ordem, matriz, resultados) == false)
+                            if (matriz[i][j] == 0)
+                            {
+                                if (trocarLinhasEspecificasDeLugar(ordem, matriz, resultados, i) == false)
+                                {
+                                    ehPossivel = false;
                                     break;
+                                }
                             }
+
                             valorDiagonal = matriz[i][j];
 
                             for (j = 0; j <= ordem; j++) // percorre as colunas da matriz
@@ -285,16 +344,39 @@ void main()
                     i++; // incrementador de linha da
                 }
 
-                printeAMatriz(ordem, matriz, resultados);
+                for (i = 0; i != ordem; i++)
+                    for (i = 0; i != ordem; i++)
+                        for (j = 0; j != ordem; j++)
+                            if (i != j)
+                                if (matriz[i][j] != 0)
+                                    ehPossivel = false;
 
-                int contX = 1;
-                for (i = 0; i != ordem; i++) // print dos resultados
+                if (ehPossivel != false)
                 {
-                    printf("\nx%d = %0.2lf\t", contX, resultados[i]);
-                    contX++;
+                    boolean ehSpi = false;
+                    for (i = 0; i != ordem; i++)
+                        if (matriz[i][i] == 0)
+                            ehSpi = true;
+
+                    if (ehSpi == false)
+                    {
+                        printeAMatriz(ordem, matriz, resultados);
+
+                        int contX = 1;
+                        for (i = 0; i != ordem; i++) // print dos resultados
+                        {
+                            printf("\nx%d = %0.2lf\t", contX, resultados[i]);
+                            contX++;
+                        }
+                    }
+                    else
+                    {
+                        printf("Sistema possivel inderteminado. Ha varias possiveis respostas.");
+                    }
                 }
+                else
+                    printf("Nao e possivel resolver o sistema!");
             }
         }
-        break;
     }
 }
